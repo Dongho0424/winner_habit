@@ -48,21 +48,33 @@ class WakeUpDBHelper {
   }
   
   WakeUp WakeUpFromMap(Map map){
+    WakeUp wakeUp = WakeUp(
+      id: map["id"],
+      isDone: map["isDone"] == 'true' ? true : false,
+      whichChallenge: map['whichChallenge'],
+      isSuccess: map["isSuccess"] == 'true' ? true : false,
+    );
 
+    return wakeUp;
+  }
 
+  Future<WakeUp> get(int id) async {
+    final Database db = await database;
+    var temp = await db.query("notes", where : "id = ?", whereArgs : [id]);
+    return WakeUpFromMap(temp.first);
   }
 
   Future<List> getAll() async {
     final Database db = await database;
     var temp = await db.query('wakeup');
-    var list = temp.isNotEmpty ? temp : [];
+    var list = temp.isNotEmpty ? temp.map((wakeup) => WakeUpFromMap(wakeup)).toList() : [];
     return list;
   }
 
-  Future insert(Map<String, Object> data) async {
+  Future insert(WakeUp wakeUp) async {
     final Database db = await database;
 
-    db.insert("wakeup", data, conflictAlgorithm: ConflictAlgorithm.replace);
+    db.insert("wakeup", WakeUpToMap(wakeUp), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future delete(int id) async {
