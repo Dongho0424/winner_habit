@@ -1,3 +1,10 @@
+import 'package:winner_habit/models/challenge.dart';
+
+enum Habit{
+  WORKOUT,
+  WAKEUP,
+}
+
 class BaseHabit {
   int id;
   String title;
@@ -7,8 +14,8 @@ class BaseHabit {
   List repeat;
   String memo;
   bool isDone;
-  final String whichChallenge;
-  final String type;
+  final Challenge whichChallenge;
+  final Habit type;
 
   BaseHabit({
     this.id,
@@ -23,3 +30,4 @@ class BaseHabit {
     this.type,
   });
 }
+

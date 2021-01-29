@@ -1,4 +1,5 @@
-import 'package:winner_habit/models/habits/basehabit.dart';
+import 'package:winner_habit/models/challenge.dart';
+import 'package:winner_habit/models/habits/base_habit.dart';
 
 class WakeUp extends BaseHabit {
 
@@ -15,7 +16,7 @@ class WakeUp extends BaseHabit {
     List repeat,
     String memo,
     bool isDone,
-    String whichChallenge,
+    Challenge whichChallenge,
     this.isSuccess,
   }) : super(
           id: id,
@@ -27,6 +28,6 @@ class WakeUp extends BaseHabit {
           memo: memo,
           isDone: isDone,
           whichChallenge: whichChallenge,
-          type: 'wake_up',
+          type: Habit.WAKEUP,
         );
 }

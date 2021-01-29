@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:winner_habit/helper/db_helper/base_db_helper.dart';
+import 'package:winner_habit/helper/theme.dart';
 import 'package:winner_habit/models/habits/wakeup.dart';
 
-class WorkOutDBHelper {
+class WorkOutDBHelper implements BaseDBHelper {
   WorkOutDBHelper._();
 
   static final WorkOutDBHelper db = WorkOutDBHelper._();
@@ -17,6 +20,7 @@ class WorkOutDBHelper {
     return _db;
   }
 
+  @override
   Future<Database> init() async {
     final String databasePath = await getDatabasesPath();
 
@@ -28,28 +32,54 @@ class WorkOutDBHelper {
         await inDB.execute("CREATE TABLE IF NOT EXISTS workout ("
             "id INTEGER PRIMARY KEY,"
             "isDone TEXT,"
-            "challenge TEXT,"
-            "isSuccess TEXT"
+            "whichChallenge TEXT,"
+            "minutes TEXT"
             ")");
       },
     );
     return db;
   }
 
-  Future<List<Map<String, dynamic>>> getAll() async {
+  Map<String, dynamic> WakeUpToMap(WakeUp wakeUp) {
+    final map = Map<String, dynamic>();
+    map['id'] = wakeUp.id;
+    map['isDone'] = wakeUp.isDone.toString();
+    map['whichChallenge'] = wakeUp.whichChallenge;
+    map['isSuccess'] = wakeUp.isSuccess.toString();
+    return map;
+  }
+
+  WakeUp WakeUpFromMap(Map map){
+    WakeUp wakeUp = WakeUp(
+      id: map["id"],
+      isDone: map["isDone"] == 'true' ? true : false,
+      whichChallenge: map['whichChallenge'],
+      isSuccess: map["isSuccess"] == 'true' ? true : false,
+    );
+
+    return wakeUp;
+  }
+
+  Future<WakeUp> get(int id) async {
+    final Database db = await database;
+    var temp = await db.query("workout", where : "id = ?", whereArgs : [id]);
+    return WakeUpFromMap(temp.first);
+  }
+
+  Future<List> getAll() async {
     final Database db = await database;
     var temp = await db.query('workout');
-    var list = temp.isNotEmpty ? temp : [];
+    var list = temp.isNotEmpty ? temp.map((wakeup) => WakeUpFromMap(wakeup)).toList() : [];
     return list;
   }
 
-  Future insert(Map<String, Object> data) async {
+  Future insert(WakeUp wakeUp) async {
     final Database db = await database;
 
-    db.insert("workout", data, conflictAlgorithm: ConflictAlgorithm.replace);
+    db.insert("workout", WakeUpToMap(wakeUp), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future delete(int id) async{
+  Future delete(int id) async {
     final Database db = await database;
 
     db.delete("workout", where: 'id = ?', whereArgs: [id]);

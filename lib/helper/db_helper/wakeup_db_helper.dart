@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:winner_habit/helper/db_helper/base_db_helper.dart';
 import 'package:winner_habit/helper/theme.dart';
 import 'package:winner_habit/models/habits/wakeup.dart';
 
-class WakeUpDBHelper {
+class WakeUpDBHelper implements BaseDBHelper {
   WakeUpDBHelper._();
 
   static final WakeUpDBHelper db = WakeUpDBHelper._();
@@ -19,6 +20,7 @@ class WakeUpDBHelper {
     return _db;
   }
 
+  @override
   Future<Database> init() async {
     final String databasePath = await getDatabasesPath();
 
@@ -60,7 +62,7 @@ class WakeUpDBHelper {
 
   Future<WakeUp> get(int id) async {
     final Database db = await database;
-    var temp = await db.query("notes", where : "id = ?", whereArgs : [id]);
+    var temp = await db.query("wakeup", where : "id = ?", whereArgs : [id]);
     return WakeUpFromMap(temp.first);
   }
 
