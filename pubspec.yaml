@@ -29,7 +29,8 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/*
+   - assets/billgates.png
+   - assets/stevejobs.png
 
 
   # To add custom fonts to your application, add a fonts section here,

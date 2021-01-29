@@ -11,6 +11,8 @@ import 'package:winner_habit/models/challenge.dart';
 class MainProvider with ChangeNotifier {
   List _habitList = [];
 
+  String _currentDate;
+
   Challenge _currentChallenge;
   List<BaseDBHelper> _currentDbList;
 
@@ -26,12 +28,13 @@ class MainProvider with ChangeNotifier {
 
   // 특정 날짜(id)에 대해, 현재 챌린지에 대한 모든 db에서 habit 긁어서 habitList에 저장
   Future getAllHabitsFromDB(int id) async {
-
-    for (BaseDBHelper db in _currentDbList){
-      _habitList.add(await db.get(id));
+    print("## getAllHabitsFromDB");
+    if(_currentChallenge != null){
+      for (BaseDBHelper db in _currentDbList) {
+        _habitList.add(await db.get(id));
+      }
     }
-
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future createHabit(dynamic db, BaseHabit habit) async {
@@ -71,8 +74,10 @@ class MainProvider with ChangeNotifier {
     //   default:
     //     break;
     // }
-    for (BaseDBHelper db in _currentDbList){
-      await db.delete(id);
+    if(_currentChallenge != null){
+      for (BaseDBHelper db in _currentDbList) {
+        await db.delete(id);
+      }
     }
 
     notifyListeners();
