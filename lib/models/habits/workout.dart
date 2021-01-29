@@ -5,13 +5,16 @@ import '../challenge.dart';
 
 class WorkOut extends BaseHabit {
 
-  static final String iconPath = " ";
+  static final String iconPath = "assets/icons/workout.png";
+  static final String viewRoute = "/WorkOutView";
+  static final String editRoute = "/WorkOutEdit";
 
   String minutes;
 
   WorkOut({
     int id,
     String title,
+    bool alarm,
     int alarmTime,
     String alarmMusic,
     String alarmHaptic,
@@ -23,6 +26,7 @@ class WorkOut extends BaseHabit {
   }) : super(
     id: id,
     title: title,
+    alarm: alarm,
     alarmTime: alarmTime,
     alarmMusic: alarmMusic,
     alarmHaptic: alarmHaptic,

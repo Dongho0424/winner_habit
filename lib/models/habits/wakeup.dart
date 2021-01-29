@@ -1,15 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:winner_habit/models/challenge.dart';
 import 'package:winner_habit/models/habits/base_habit.dart';
 
 class WakeUp extends BaseHabit {
 
-  static final String iconPath = " ";
+  static final String iconPath = "assets/icons/moon.png";
+  static final String viewRoute = "/WakeUpView";
+  static final String editRoute = "/WakeUpEdit";
+  static final Color color = Colors.amberAccent;
 
   bool isSuccess;
 
   WakeUp({
     int id,
     String title,
+    bool alarm,
     int alarmTime,
     String alarmMusic,
     String alarmHaptic,
@@ -21,6 +26,7 @@ class WakeUp extends BaseHabit {
   }) : super(
           id: id,
           title: title,
+          alarm: alarm,
           alarmTime: alarmTime,
           alarmMusic: alarmMusic,
           alarmHaptic: alarmHaptic,

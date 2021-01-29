@@ -8,6 +8,7 @@ enum Habit{
 class BaseHabit {
   int id;
   String title;
+  bool alarm;
   int alarmTime;
   String alarmMusic;
   String alarmHaptic;
@@ -20,6 +21,7 @@ class BaseHabit {
   BaseHabit({
     this.id,
     this.title,
+    this.alarm,
     this.alarmTime,
     this.alarmMusic,
     this.alarmHaptic,
@@ -29,5 +31,6 @@ class BaseHabit {
     this.whichChallenge,
     this.type,
   });
+
 }
 

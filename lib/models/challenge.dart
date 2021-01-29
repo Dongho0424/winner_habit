@@ -38,7 +38,7 @@ class BillGates{
     ),
   ];
   static final dbs = [WorkOutDBHelper.db, WakeUpDBHelper.db];
-  static final illust = "assets/billgates.png";
+  static final illust = "assets/winners/billgates.png";
 }
 
 class SteveJobs{
@@ -70,5 +70,5 @@ class SteveJobs{
     ),
   ];
   static final dbs = [WorkOutDBHelper.db, WakeUpDBHelper.db];
-  static final illust = "assets/stevejobs.png";
+  static final illust = "assets/winners/stevejobs.png";
 }

@@ -9,6 +9,7 @@ class AppColor {
   static final Color backgroundColor = Colors.black87;
   static final Color habitColor = Colors.black38;
   static final Color bottomNavigationColor = Colors.black38;
+  static final Color dDayColor = Colors.red;
 }
 
 class AppTheme {
