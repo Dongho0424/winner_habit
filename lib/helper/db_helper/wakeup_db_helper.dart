@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:winner_habit/helper/db_helper/base_db_helper.dart';
-import 'package:winner_habit/helper/theme.dart';
 import 'package:winner_habit/models/habits/wakeup.dart';
 
 class WakeUpDBHelper implements BaseDBHelper {

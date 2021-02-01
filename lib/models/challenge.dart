@@ -47,6 +47,7 @@ class SteveJobs{
     WorkOut(
       id: getNowId(),
       title: "SteveJobs' work out",
+      alarm: true,
       alarmTime: 30,
       alarmMusic: " ",
       alarmHaptic: " ",
@@ -59,6 +60,7 @@ class SteveJobs{
     WakeUp(
       id: getNowId(),
       title: "SteveJobs' wake up",
+      alarm: true,
       alarmTime: 30,
       alarmMusic: " ",
       alarmHaptic: " ",

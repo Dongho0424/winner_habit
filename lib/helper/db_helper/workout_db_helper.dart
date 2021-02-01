@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:winner_habit/helper/db_helper/base_db_helper.dart';
-import 'package:winner_habit/helper/theme.dart';
-import 'package:winner_habit/models/habits/wakeup.dart';
+import 'package:winner_habit/models/habits/workout.dart';
 
 class WorkOutDBHelper implements BaseDBHelper {
   WorkOutDBHelper._();
@@ -40,43 +38,43 @@ class WorkOutDBHelper implements BaseDBHelper {
     return db;
   }
 
-  Map<String, dynamic> WakeUpToMap(WakeUp wakeUp) {
+  Map<String, dynamic> WorkOutToMap(WorkOut workOut) {
     final map = Map<String, dynamic>();
-    map['id'] = wakeUp.id;
-    map['isDone'] = wakeUp.isDone.toString();
-    map['whichChallenge'] = wakeUp.whichChallenge;
-    map['isSuccess'] = wakeUp.isSuccess.toString();
+    map['id'] = workOut.id;
+    map['isDone'] = workOut.isDone.toString();
+    map['whichChallenge'] = workOut.whichChallenge;
+    map['minutes'] = workOut.minutes;
     return map;
   }
 
-  WakeUp WakeUpFromMap(Map map){
-    WakeUp wakeUp = WakeUp(
+  WorkOut WorkOutFromMap(Map map){
+    WorkOut workOut = WorkOut(
       id: map["id"],
       isDone: map["isDone"] == 'true' ? true : false,
       whichChallenge: map['whichChallenge'],
-      isSuccess: map["isSuccess"] == 'true' ? true : false,
+      minutes: map["minutes"],
     );
 
-    return wakeUp;
+    return workOut;
   }
 
-  Future<WakeUp> get(int id) async {
+  Future<WorkOut> get(int id) async {
     final Database db = await database;
     var temp = await db.query("workout", where : "id = ?", whereArgs : [id]);
-    return WakeUpFromMap(temp.first);
+    return WorkOutFromMap(temp.first);
   }
 
   Future<List> getAll() async {
     final Database db = await database;
     var temp = await db.query('workout');
-    var list = temp.isNotEmpty ? temp.map((wakeup) => WakeUpFromMap(wakeup)).toList() : [];
+    var list = temp.isNotEmpty ? temp.map((workOut) => WorkOutFromMap(workOut)).toList() : [];
     return list;
   }
 
-  Future insert(WakeUp wakeUp) async {
+  Future insert(WorkOut workOut) async {
     final Database db = await database;
 
-    db.insert("workout", WakeUpToMap(wakeUp), conflictAlgorithm: ConflictAlgorithm.replace);
+    db.insert("workout", WorkOutToMap(workOut), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future delete(int id) async {

@@ -5,7 +5,8 @@ import 'package:winner_habit/helper/utils.dart';
 import 'package:winner_habit/models/challenge.dart';
 import 'package:winner_habit/models/habits/base_habit.dart';
 import 'package:winner_habit/providers/main_provider.dart';
-import 'package:winner_habit/widgets/habit_list.dart';
+import 'package:winner_habit/screens/challenge_billgates.dart';
+import 'package:winner_habit/widgets/habit_list_item.dart';
 
 class HabitListScreen extends StatefulWidget {
   @override
@@ -51,18 +52,26 @@ class _HabitListScreenState extends State<HabitListScreen> {
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios),
                     onPressed: () {
-                      setState(() {id--;});
-                      Provider.of<MainProvider>(context, listen: false).setCurrentDate(id);
+                      print("now: ${DateTime.now()}");
+                      setState(() {
+                        id--;
+                      });
+                      Provider.of<MainProvider>(context, listen: false)
+                          .setCurrentDate(id);
                     },
                   ),
                   Text("$id"), // using id
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
-                    onPressed: () {
-                      setState(() {id++;});
-                      Provider.of<MainProvider>(context, listen: false).setCurrentDate(id);
-                    },
-                  ),
+                  if (id < getNowId())
+                    IconButton(
+                      icon: Icon(Icons.arrow_forward_ios),
+                      onPressed: () {
+                        setState(() {
+                          id++;
+                        });
+                        Provider.of<MainProvider>(context, listen: false)
+                            .setCurrentDate(id);
+                      },
+                    ),
                 ],
               ),
               centerTitle: true,
@@ -75,12 +84,15 @@ class _HabitListScreenState extends State<HabitListScreen> {
                     : ListView.builder(
                         itemCount: mainProvider.habitList.length + 1,
                         itemBuilder: (builderContext, index) {
+
+                          print("mainProvider.habitList.length: ${mainProvider.habitList.length}");
+
                           if (index == 0) {
                             return challengeHeader(size);
                           } else {
                             final i = index - 1;
                             BaseHabit habit = mainProvider.habitList[i];
-                            return HabitList(habit);
+                            return HabitListItem(habit);
                           }
                         },
                       );
@@ -107,11 +119,15 @@ class _HabitListScreenState extends State<HabitListScreen> {
           RaisedButton(
               child: Center(
                   child: Text(
-                "여기를 누르세요!!",
+                "여기를 누르세요!!!",
                 style: TextStyle(color: Colors.white),
               )),
               onPressed: () {
-                print("#asd");
+                // 임시로 해놓은 것
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChallengeBillGates()));
               })
         ],
       ),
@@ -136,8 +152,9 @@ class _HabitListScreenState extends State<HabitListScreen> {
               SizedBox(width: 10),
               Column(
                 children: [
-                  Text("D-35", style: TextStyle(color: AppColor.dDayColor)),
-                  Text("빌게이츠 챌린지"),
+                  Text("D-35",
+                      style: TextStyle(color: AppColor.dDayColor, fontSize: 15)),
+                  Text("빌게이츠 챌린지", style: TextStyle(color: Colors.white,fontSize: 30)),
                   Text("전체 달성률"),
                   Text("일일 달성률"),
                 ],

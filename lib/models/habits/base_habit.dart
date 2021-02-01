@@ -32,5 +32,8 @@ class BaseHabit {
     this.type,
   });
 
+  void changeIsDone(){
+    isDone = !isDone;
+  }
 }
 

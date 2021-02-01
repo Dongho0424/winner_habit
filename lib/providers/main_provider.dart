@@ -9,14 +9,14 @@ import 'package:winner_habit/models/habits/base_habit.dart';
 import 'package:winner_habit/models/challenge.dart';
 
 class MainProvider with ChangeNotifier {
-  List _habitList = [];
+  List<BaseHabit> _habitList = [];
 
   int _currentDate;
 
   Challenge _currentChallenge;
   List<BaseDBHelper> _currentDbList;
 
-  List get habitList => _habitList;
+  List<BaseHabit> get habitList => _habitList;
   Challenge get currentChallenge => _currentChallenge;
   List<BaseDBHelper> get currentDbList => _currentDbList;
 
@@ -25,11 +25,13 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  dynamic getHabit(int id, String habitType) {
+  BaseHabit getHabit(int id, Habit habitType) {
     return _habitList.firstWhere(
         (habit) => habit.id == id && habit.type == habitType,
         orElse: () => null);
   }
+
+  // void change
 
   // 특정 날짜(id)에 대해, 현재 챌린지에 대한 모든 db에서 habit 긁어서 habitList에 저장
   Future getAllHabitsFromDB(int id) async {
@@ -40,7 +42,7 @@ class MainProvider with ChangeNotifier {
         _habitList.add(await db.get(id));
       }
     }
-    // notifyListeners();
+    notifyListeners();
   }
 
   Future createHabit(dynamic db, BaseHabit habit) async {
@@ -89,6 +91,7 @@ class MainProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // ignore: non_constant_identifier_names
   Future CreateNewChallenge(Challenge challenge) async{
 
     deleteNowHabits();
@@ -99,7 +102,8 @@ class MainProvider with ChangeNotifier {
       case Challenge.BILLGATES:
 
         _currentDbList = BillGates.dbs;
-
+        print("## in CreateNewChallenge");
+        print("habitList.length: ${habitList.length}");
         for (int i=0; i<BillGates.habits.length; i++){
           await createHabit(BillGates.dbs[i], BillGates.defaultHabits[i]);
         }

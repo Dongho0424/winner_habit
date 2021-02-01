@@ -7,8 +7,8 @@ class HabitColor {
 
 class AppColor {
   static final Color backgroundColor = Colors.black87;
-  static final Color habitColor = Colors.black38;
-  static final Color bottomNavigationColor = Colors.black38;
+  static final Color habitColor = Colors.grey[850];
+  static final Color bottomNavigationColor = Colors.grey[850];
   static final Color dDayColor = Colors.red;
 }
 
