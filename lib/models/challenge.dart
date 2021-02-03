@@ -15,6 +15,7 @@ class BillGates{
     WorkOut(
       id: getNowId(),
       title: "BillGates' work out",
+      alarm: true,
       alarmTime: 30,
       alarmMusic: " ",
       alarmHaptic: " ",
@@ -22,11 +23,12 @@ class BillGates{
       memo: "",
       isDone: false,
       whichChallenge: Challenge.BILLGATES,
-      minutes: "",
+      minutes: "minutes",
     ),
     WakeUp(
       id: getNowId(),
       title: "BillGates' wake up",
+      alarm: true,
       alarmTime: 30,
       alarmMusic: " ",
       alarmHaptic: " ",
@@ -34,7 +36,7 @@ class BillGates{
       memo: "",
       isDone: false,
       whichChallenge: Challenge.BILLGATES,
-      isSuccess: true,
+      isSuccess: 'true',
     ),
   ];
   static final dbs = [WorkOutDBHelper.db, WakeUpDBHelper.db];
@@ -68,7 +70,7 @@ class SteveJobs{
       memo: "",
       isDone: false,
       whichChallenge: Challenge.STEVEJOBS,
-      isSuccess: true,
+      isSuccess: 'true',
     ),
   ];
   static final dbs = [WorkOutDBHelper.db, WakeUpDBHelper.db];

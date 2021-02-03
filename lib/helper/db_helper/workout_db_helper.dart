@@ -1,6 +1,8 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:winner_habit/helper/db_helper/base_db_helper.dart';
+import 'package:winner_habit/helper/utils.dart';
+import 'package:winner_habit/models/habits/base_habit.dart';
 import 'package:winner_habit/models/habits/workout.dart';
 
 class WorkOutDBHelper implements BaseDBHelper {
@@ -22,6 +24,8 @@ class WorkOutDBHelper implements BaseDBHelper {
   Future<Database> init() async {
     final String databasePath = await getDatabasesPath();
 
+    print("# workout db: ${join(databasePath, 'work_out_database.db')}");
+
     Database db = await openDatabase(
       join(databasePath, 'work_out_database.db'),
       version: 1,
@@ -42,7 +46,7 @@ class WorkOutDBHelper implements BaseDBHelper {
     final map = Map<String, dynamic>();
     map['id'] = workOut.id;
     map['isDone'] = workOut.isDone.toString();
-    map['whichChallenge'] = workOut.whichChallenge;
+    map['whichChallenge'] = toChallengeString(workOut.whichChallenge);
     map['minutes'] = workOut.minutes;
     return map;
   }
@@ -51,7 +55,7 @@ class WorkOutDBHelper implements BaseDBHelper {
     WorkOut workOut = WorkOut(
       id: map["id"],
       isDone: map["isDone"] == 'true' ? true : false,
-      whichChallenge: map['whichChallenge'],
+      whichChallenge: toChallenge(map['whichChallenge']),
       minutes: map["minutes"],
     );
 
@@ -71,7 +75,8 @@ class WorkOutDBHelper implements BaseDBHelper {
     return list;
   }
 
-  Future insert(WorkOut workOut) async {
+  Future insert(BaseHabit habit) async {
+    WorkOut workOut = (habit as WorkOut);
     final Database db = await database;
 
     db.insert("workout", WorkOutToMap(workOut), conflictAlgorithm: ConflictAlgorithm.replace);

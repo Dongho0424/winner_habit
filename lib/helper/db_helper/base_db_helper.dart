@@ -7,6 +7,8 @@ abstract class BaseDBHelper{
 
   Future get(int id) async {}
 
+  Future insert(BaseHabit habit) {}
+
   Future delete(int id) async {}
 
 }

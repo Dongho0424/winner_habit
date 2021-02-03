@@ -34,11 +34,6 @@ class _HabitListScreenState extends State<HabitListScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: AppColor.backgroundColor,
-            // appBar: AppBar(
-            //   title: Text("Main Page"),
-            //   centerTitle: true,
-            //   backgroundColor: AppColor.backgroundColor,
-            // ),
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -53,9 +48,11 @@ class _HabitListScreenState extends State<HabitListScreen> {
                     icon: Icon(Icons.arrow_back_ios),
                     onPressed: () {
                       print("now: ${DateTime.now()}");
-                      setState(() {
-                        id--;
-                      });
+                      // WidgetsBinding.instance.addPostFrameCallback((_) {
+                      //   setState(() {
+                      //     id--;
+                      //   });
+                      // });
                       Provider.of<MainProvider>(context, listen: false)
                           .setCurrentDate(id);
                     },
@@ -65,9 +62,11 @@ class _HabitListScreenState extends State<HabitListScreen> {
                     IconButton(
                       icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () {
-                        setState(() {
-                          id++;
-                        });
+                        // WidgetsBinding.instance.addPostFrameCallback((_) {
+                        //   setState(() {
+                        //     id++;
+                        //   });
+                        // });
                         Provider.of<MainProvider>(context, listen: false)
                             .setCurrentDate(id);
                       },
@@ -80,22 +79,26 @@ class _HabitListScreenState extends State<HabitListScreen> {
             body: Consumer<MainProvider>(
               builder: (context, mainProvider, child) {
                 return mainProvider.habitList.length <= 0
-                    ? noHabitList(context)
-                    : ListView.builder(
-                        itemCount: mainProvider.habitList.length + 1,
-                        itemBuilder: (builderContext, index) {
+                  ? noHabitList(context)
+                  : ListView.builder(
+                      itemCount: mainProvider.habitList.length + 1,
+                      itemBuilder: (builderContext, index) {
 
-                          print("mainProvider.habitList.length: ${mainProvider.habitList.length}");
+                        print("mainProvider.habitList.length: ${mainProvider.habitList.length}");
 
-                          if (index == 0) {
-                            return challengeHeader(size);
-                          } else {
-                            final i = index - 1;
-                            BaseHabit habit = mainProvider.habitList[i];
-                            return HabitListItem(habit);
-                          }
-                        },
-                      );
+                        if (index == 0) {
+                          return challengeHeader(size, mainProvider.currentChallenge);
+                        } else {
+                          final i = index - 1;
+                          BaseHabit habit = mainProvider.habitList[i];
+                          print("ListView.builder, habit.title: ${habit.title}");
+                          print("ListView.builder, habit.type: ${habit.type}");
+                          print("ListView.builder, habit.isDone: ${habit.isDone}");
+                          print("ListView.builder, habit.whichChallenge: ${habit.whichChallenge}");
+                          return HabitListItem(habit);
+                        }
+                      },
+                    );
               },
             ),
           );
@@ -116,6 +119,7 @@ class _HabitListScreenState extends State<HabitListScreen> {
             style: TextStyle(color: Colors.white),
           )),
           SizedBox(height: 100),
+          // 임시로 해놓은 것
           RaisedButton(
               child: Center(
                   child: Text(
@@ -134,33 +138,63 @@ class _HabitListScreenState extends State<HabitListScreen> {
     );
   }
 
-  Widget challengeHeader(Size size) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: 40.0),
-      child: GestureDetector(
-        onTap: () {
-          print("challengeHeader");
-        },
-        child: Container(
-          height: 150,
-          width: double.infinity,
-          color: AppColor.backgroundColor,
-          child: Row(
-            children: [
-              Image(image: AssetImage(BillGates.illust)),
-              SizedBox(width: 10),
-              Column(
-                children: [
-                  Text("D-35",
-                      style: TextStyle(color: AppColor.dDayColor, fontSize: 15)),
-                  Text("빌게이츠 챌린지", style: TextStyle(color: Colors.white,fontSize: 30)),
-                  Text("전체 달성률"),
-                  Text("일일 달성률"),
-                ],
-              )
-            ],
-          ),
+  Widget challengeHeader(Size size, Challenge challenge) {
+    return GestureDetector(
+      onTap: () {
+        print("challengeHeader");
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+//           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        height: 150,
+        width: double.infinity,
+        color: Colors.black87,
+        child: Row(
+          children: [
+            Image(image: AssetImage(BillGates.illust), width: 100, height: 150, color: Colors.white),
+//               Container(color: Colors.red, width: 100, height: 150),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 3),
+                    Text("D-35",
+                        style: TextStyle(color: Colors.red, fontSize: 15)),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: toChallengeKorString(challenge),
+                            style:
+                            TextStyle(color: Colors.white, fontSize: 38),
+                          ),
+                          TextSpan(
+                            text: ' 챌린지',
+                            style:
+                            TextStyle(color: Colors.white, fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text("전체 달성률",
+                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                    SizedBox(height: 7),
+                    Text("일일 달성률",
+                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                    SizedBox(height: 2),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

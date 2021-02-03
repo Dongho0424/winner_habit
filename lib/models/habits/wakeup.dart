@@ -7,9 +7,8 @@ class WakeUp extends BaseHabit {
   static final String iconPath = "assets/icons/moon.png";
   static final String viewRoute = "/WakeUpView";
   static final String editRoute = "/WakeUpEdit";
-  static final Color color = Colors.amberAccent;
 
-  bool isSuccess;
+  String isSuccess;
 
   WakeUp({
     int id,
