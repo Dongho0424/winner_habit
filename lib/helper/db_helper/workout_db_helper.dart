@@ -33,6 +33,7 @@ class WorkOutDBHelper implements BaseDBHelper {
       onCreate: (Database inDB, int inVersion) async {
         await inDB.execute("CREATE TABLE IF NOT EXISTS workout ("
             "id INTEGER PRIMARY KEY,"
+            "title TEXT,"
             "isDone TEXT,"
             "whichChallenge TEXT,"
             "minutes TEXT"
@@ -45,6 +46,7 @@ class WorkOutDBHelper implements BaseDBHelper {
   Map<String, dynamic> WorkOutToMap(WorkOut workOut) {
     final map = Map<String, dynamic>();
     map['id'] = workOut.id;
+    map['title'] = workOut.title;
     map['isDone'] = workOut.isDone.toString();
     map['whichChallenge'] = toChallengeString(workOut.whichChallenge);
     map['minutes'] = workOut.minutes;
@@ -54,6 +56,7 @@ class WorkOutDBHelper implements BaseDBHelper {
   WorkOut WorkOutFromMap(Map map){
     WorkOut workOut = WorkOut(
       id: map["id"],
+      title: map['title'],
       isDone: map["isDone"] == 'true' ? true : false,
       whichChallenge: toChallenge(map['whichChallenge']),
       minutes: map["minutes"],

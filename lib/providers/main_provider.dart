@@ -87,6 +87,7 @@ class MainProvider with ChangeNotifier {
 
   // ignore: non_constant_identifier_names
   Future CreateNewChallenge(Challenge challenge) async {
+
     await deleteNowHabits();
 
     _currentChallenge = challenge;

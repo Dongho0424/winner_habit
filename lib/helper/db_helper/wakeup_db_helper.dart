@@ -33,6 +33,7 @@ class WakeUpDBHelper implements BaseDBHelper {
       onCreate: (Database inDB, int inVersion) async {
         await inDB.execute("CREATE TABLE IF NOT EXISTS wakeup ("
             "id INTEGER PRIMARY KEY,"
+            "title TEXT,"
             "isDone TEXT,"
             "whichChallenge TEXT,"
             "isSuccess TEXT"
@@ -45,6 +46,7 @@ class WakeUpDBHelper implements BaseDBHelper {
   Map<String, dynamic> WakeUpToMap(WakeUp wakeUp) {
     final map = Map<String, dynamic>();
     map['id'] = wakeUp.id;
+    map['title'] = wakeUp.title;
     map['isDone'] = wakeUp.isDone.toString();
     map['whichChallenge'] = toChallengeString(wakeUp.whichChallenge);
     map['isSuccess'] = wakeUp.isSuccess.toString();
@@ -54,6 +56,7 @@ class WakeUpDBHelper implements BaseDBHelper {
   WakeUp WakeUpFromMap(Map map){
     WakeUp wakeUp = WakeUp(
       id: map["id"],
+      title: map['title'],
       isDone: map["isDone"] == 'true' ? true : false,
       whichChallenge: toChallenge(map['whichChallenge']),
       isSuccess: map["isSuccess"]

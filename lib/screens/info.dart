@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:winner_habit/helper/theme.dart';
 
-class ChallengeSearch extends StatelessWidget {
+class Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
       appBar: AppBar(
-        title: Text("ChallengeSearchScreen"),
+        title: Text("Info"),
         centerTitle: true,
         backgroundColor: AppColor.backgroundColor,
       ),

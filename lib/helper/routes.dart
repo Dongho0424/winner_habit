@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:winner_habit/screens/info.dart';
+import 'package:winner_habit/screens/statistics.dart';
+import 'package:winner_habit/screens/challenge_search.dart';
 import 'package:winner_habit/screens/habit_list_screen.dart';
 import 'package:winner_habit/screens/splash.dart';
 import 'package:winner_habit/screens/workout_edit_screen.dart';
@@ -17,6 +20,9 @@ class Routes{
       case "HabitList" : return MaterialPageRoute(builder: (context) => HabitListScreen());
       case "WorkOutView" : return MaterialPageRoute(builder: (context) => WorkOutViewScreen());
       case "WorkOutEdit" : return MaterialPageRoute(builder: (context) => WorkOutEditScreen());
+      case "ChallengeSearch" : return MaterialPageRoute(builder: (context) => ChallengeSearch());
+      case "Statistics" : return MaterialPageRoute(builder: (context) => Statistics());
+      case "Info" : return MaterialPageRoute(builder: (context) => Info());
     }
   }
 
